@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Prediction App - Home</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+
+<body>
+<header class="header">
+    <div class="container">
+        <h1>Stock Prediction App</h1>
+        <p>Predict Stock Prices with LSTM</p>
+    </div>
+</header>
+
+<nav class="navbar">
+    <div class="container">
+        <a href="{{ url_for('index') }}"><i class="fas fa-home"></i> Home</a>
+        <a href="{{ url_for('about') }}"><i class="fas fa-info-circle"></i> About</a>
+        <a href="{{ url_for('contact') }}"><i class="fas fa-envelope"></i> Contact</a>
+        <a href="{{ url_for('predict') }}"><i class="fas fa-chart-line"></i> Predict</a>
+    </div>
+</nav>
+
+<section class="home-content">
+    <div class="container">
+        <h2>Welcome to Stock Prediction App</h2>
+        <p>Predict stock prices using LSTM models. Enter a stock symbol and get forecasts for various periods.</p>
+        <a href="{{ url_for('predict') }}" class="home-button">Get Started</a>
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="container">
+        <p>&copy; 2024 Stock Prediction App. All rights reserved.</p>
+    </div>
+</footer>
+
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+</body>
+
+</html>
