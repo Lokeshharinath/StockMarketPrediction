@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Price Prediction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        /* Additional styles specific to this page */
+        body {
+            background-image: url("static/background.jpg"); /* Background image path */
+            background-size: cover;
+            background-position: center;
+            color: #fff; /* Light text color for better visibility */
+            margin: 0; /* Remove default margin */
+            padding: 0; /* Remove default padding */
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .navbar {
+            background-color: #333; /* Dark background for navbar */
+            overflow: hidden;
+            padding: 1rem 0;
+            text-align: center;
+            width: 100%;
+            z-index: 1000; /* Ensure navbar is on top */
+            position: fixed; /* Fixed position to stick at the top */
+            top: 0; /* Align navbar to the top */
+        }
+        .navbar a {
+            text-decoration: none;
+            color: #fff; /* White text color */
+            padding: 1rem;
+            display: inline-block;
+            transition: background-color 0.3s ease; /* Smooth transition */
+        }
+        .navbar a:hover {
+            background-color: #444; /* Darker background on hover */
+        }
+        .predict-container {
+            text-align: center;
+            padding: 4rem 2rem;
+            background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent dark background */
+            border-radius: 10px;
+            margin: 100px auto; /* Center the container */
+            max-width: 600px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 1s ease-in-out; /* Fade-in animation */
+            margin-top: 80px; /* Adjust margin to avoid navbar overlap */
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        input[type="text"], select {
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            font-size: 1rem;
+        }
+        input[type="submit"], .clear-button {
+            background-color: #007bff; /* Bootstrap primary color */
+            color: #fff;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            font-size: 1rem;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            margin-right: 10px;
+        }
+        input[type="submit"]:hover, .clear-button:hover {
+            background-color: #0056b3; /* Darker shade on hover */
+        }
+        .loading {
+            display: none;
+            text-align: center;
+            margin-top: 2rem;
+        }
+        .error-message {
+            display: none;
+            color: #ff0000;
+            margin-top: 1rem;
+            text-align: center;
+            font-weight: bold;
+            animation: shake 0.5s;
+        }
+        .result {
+            display: none;
+            text-align: center;
+            margin-top: 2rem;
+        }
+        .result img {
+            width: 100%;
+            max-width: 600px;
+            margin-top: 1rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            animation: fadeIn 1s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            50% { transform: translateX(5px); }
+            75% { transform: translateX(-5px); }
+            100% { transform: translateX(0); }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- Navigation Bar -->
+    <div class="navbar">
+        <a href="/">Home</a>
+        <a href="/about">About</a>
+        <a href="/contact">Contact</a>
+    </div>
+
+    <div class="predict-container">
+        <h1>Stock Price Prediction</h1>
+        <form id="prediction-form" class="form-group">
+            <div class="form-group">
+                <label for="symbol">Enter Stock Symbol:</label>
+                <input type="text" id="symbol" name="symbol" required>
+            </div>
+            <div class="form-group">
+                <label for="forecast-period">Select Forecast Period:</label>
+                <select id="forecast-period" name="forecast-period">
+                    <option value="30days">Next 30 Days</option>
+                    <option value="6months">Next 6 Months</option>
+                    <option value="1year">Next 1 Year</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="historical-years">Enter Historical Years:</label>
+                <input type="text" id="historical-years" name="historical-years" value="1" required>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Predict">
+                <button type="button" class="clear-button" onclick="clearForm()">Clear</button>
+            </div>
+        </form>
+        <div id="loading" class="loading">
+            <img src="static/loading.gif" alt="Loading..." width="50">
+        </div>
+        <div id="error-message" class="error-message"></div>
+        <div id="result" class="result">
+            <p id="result-symbol"></p>
+            <p id="current-price"></p>
+            <p id="result-profit-loss"></p>
+            <img id="result-plot" src="" alt="Stock Price Forecast">
+        </div>
+    </div>
+</div>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
